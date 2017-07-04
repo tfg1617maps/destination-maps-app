@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta charset="utf-8">
+  <title>hola mundo</title>
+  <!--CSS-->
+  <link rel="stylesheet" href="css/jquery.mobile.icons-1.4.5.min.css">
+  <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/map.css">
+  <!--JAVASCRIPT-->
+  <script src="js/jquery-1.11.1.min.js"></script>
+  <script src="js/jquery.mobile-1.4.5.min.js"></script>
+  <script src="js/mathround.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app-functions.js"></script>
+  <script src="js/maps.js"></script>
+  <script src="js/distancias.js"></script>
+  <script src="js/arIndex.js"></script>
+  <script type="text/javascript" src="cordova.js"></script>
+  <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+</head>
+<body>
+  <div data-role="page" id="index" data-theme="b">
+    <div data-role="header" data-position="fixed">
+      <div>
+        <h1 class="header-title">Listado de mapas</h1>
+      </div>
+    </div>
+    <div data-role="content">
+      <div style="margin:0 auto;margin-left:auto;margin-right:auto;align:center;text-align:center;">
+        <a href="javascript:loadMaps()" class="ui-btn ui-btn-inline ui-icon-arrow-d ui-btn-icon-left">Actualizar listado mapas</a>
+      </div>
+      <form class="ui-filterable hide-element" id="map-search">
+        <input id="filterBasic-input" data-type="search">
+      </form>
+      <ul data-role="listview" data-inset="true" data-filter="true" data-input="#filterBasic-input" id="maps"></ul>
+    </div>
+    <div data-role="footer" data-position="fixed">
+    </div>
+  </div>
+  <div data-role="page" id="map-page" data-theme="b">
+    <div data-role="header" id="header">
+      <div style="float:left;">
+        <a href="#" class="ui-btn-left ui-btn ui-icon-carat-l ui-btn-icon-notext ui-corner-all" data-rel="back">No text</a>
+      </div>
+      <div>
+        <h1 class="header-title" id="header_title_map"></h1>
+      </div>
+      <div>
+        <a href="#index" class="ui-btn-right ui-btn ui-icon-home ui-btn-icon-notext ui-corner-all">No text</a>
+      </div>
+    </div>
+    <div role="content" id="content">
+      <div id="map-canvas">
+      </div>
+      <a style=" position: absolute; left: 20px; bottom: 100px;" class="ui-btn ui-icon-navigation ui-btn-icon-notext ui-corner-all" href="javascript:centrarUsuario();">No text</a>
+    </div>
+    <div data-role="footer" id="footer">
+      <div data-role="navbar">
+        <ul>
+          <li>
+            <a href="#map-page">Mapa</a>
+          </li>
+          <li>
+            <a class="ui-btn" href="#poi-list">Puntos de Interes</a>
+          </li>
+        </ul>
+      </div>
+      <!-- <h3>Map Page</h3> -->
+    </div>
+  </div>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgrScUf5b4KL3hqBzkhluD31kOg-y6ug4"async defer></script>
+  <div data-role="page" id="poi-list" data-theme="b">
+    <div data-role="header" data-position="fixed">
+      <div style="float:left;">
+        <a href="#" class="ui-btn-left ui-btn ui-icon-carat-l ui-btn-icon-notext ui-corner-all" data-rel="back">No text</a>
+      </div>
+      <div>
+        <h1 class="header-title">Listado de POIS</h1>
+      </div>
+      <div>
+        <a href="#index" class="ui-btn-right ui-btn ui-icon-home ui-btn-icon-notext ui-corner-all">No text</a>
+      </div>
+    </div>
+    <div data-role="content" class=".contenido">
+      <div style="margin:0 auto;margin-left:auto;margin-right:auto;align:center;text-align:center;">
+        <button  id="filter-button" class="ui-btn ui-icon-tag ui-btn-icon-left ui-btn-inline">Filtrar POI</button>
+      </div>
+      <div id="filter-widget" class="hide-element">
+        <select name="select-choice-a" id="select-choice-a" data-native-menu="false">
+            <option value="all">todas las categorias</option>
+            <option value="distancia">Distancia</option>
+            <option value="Acuario">Acuario</option>
+            <option value="Ayuntamiento">Ayuntamiento</option>
+            <option value="Bar">Bar</option>
+            <option value="Biblioteca">Biblioteca</option>
+            <option value="Cafeteria">Cafeteria</option>
+            <option value="Catedral">Catedral</option>
+            <option value="Convento">Convento</option>
+            <option value="Escultura">Escultura</option>
+            <option value="Estación">Estación</option>
+            <option value="Iglesia">Iglesia</option>
+            <option value="Mercado">Mercado</option>
+            <option value="Monumento">Monumento</option>
+            <option value="Museo">Museo</option>
+            <option value="Parque">Parque</option>
+            <option value="Playa">Playa</option>
+            <option value="Teatro">Teatro</option>
+            <option value="Universidad">Universidad</option>
+            <option value="Zoo">Zoo</option>
+        </select>
+      </div>
+      <div style="clear:right">
+        <ul id="pois" data-role="listview" data-inset="true"></ul>
+      </div>
+    </div>
+    <div data-role="footer" data-position="fixed">
+      <div data-role="navbar">
+        <ul>
+          <li>
+            <a href="#map-page">Mapa</a>
+          </li>
+          <li>
+            <a class="ui-btn" href="#poi-list">Puntos de Interes</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div data-role="page" id="detail-poi" data-theme="b">
+    <div data-role="header" data-position="fixed">
+      <div style="float:left;">
+        <a href="#" class="ui-btn-left ui-btn ui-icon-carat-l ui-btn-icon-notext ui-corner-all" data-rel="back">No text</a>
+      </div>
+      <div>
+        <h1 class="header-title" id="header_title_poi">titulo del POI</h1>
+      </div>
+      <div>
+        <a href="#index" class="ui-btn-right ui-btn ui-icon-home ui-btn-icon-notext ui-corner-all">No text</a>
+      </div>
+    </div>
+    <div data-role="content">
+        <div style="margin:0 auto;margin-left:auto;margin-right:auto;align:center;text-align:center;">
+          <a id="ar-button" href="javascript:app.loadExampleARchitectWorld()" class="ui-btn ui-btn-inline ui-icon-camera ui-btn-icon-left ui-disabled">Experiencia aumentada</a>
+        </div>
+      <h2 id="titulo_poi"></h2>
+      <p id="categoria_poi"></p>
+      <h2>Información sobre la atracción.</h2>
+      <p id="descripcion_poi"></p>
+      <div id="location-container" style="clear:left">
+        <a href="" style="float:left" class="ui-btn ui-icon-location ui-btn-icon-notext ui-corner-all">No text</a>
+        <p class="icon-text">
+          <a id="location_poi" href=""></a>
+        </p>
+      </div>
+      <div id="enlace-container">
+        <a href="" style="float:left" class="ui-btn ui-icon-info ui-btn-icon-notext ui-corner-all">No text</a>
+        <p class="icon-text">
+          <a id="enlace_poi" href=""></a>
+        </p>
+      </div>
+    </div>
+    <div data-role="footer" data-position="fixed">
+    </div>
+  </div>
+</body>
+</html>

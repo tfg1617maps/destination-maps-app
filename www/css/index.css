@@ -1,0 +1,111 @@
+.header-title{
+  font-size: 1em;
+  vertical-align: middle;
+  min-height: 1.1em;
+  text-align: center;
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  outline: 0 !important;
+  margin-left: 40px;
+  margin-right: 40px;
+}
+.imgThumb{
+  width: 80px;
+  height: 80px;
+  text-align: center;
+}
+.distancia {
+  margin-bottom: 10px;
+  text-align: right;
+}
+.hide-element{
+  display: none;
+}
+.map-image{
+  width: 80px;
+  height: 80px;
+}
+#map-page{
+  overflow-y: hidden;
+}
+#iw-container {
+}
+#iw-container .iw-title {
+	font-family: 'Open Sans Condensed', sans-serif;
+	font-size: 1em;
+	padding: 10px 0px 10px 10px;
+	color: black;
+}
+#iw-container p{
+  color: black;
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+#iw-container .iw-content {
+	margin-right: 1px;
+	padding: 0px 5px 20px 0px;
+	max-height: 140px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.iw-subTitle {
+  float:right;
+}
+.gm-style .gm-style-iw {
+  font-size: 11px
+}
+#titulo_poi{
+  font-size: 1.4em;
+}
+#categoria_poi{
+  margin-left: 30px;
+  text-align: justify;
+}
+#descripcion_poi{
+  text-align: justify;
+}
+.icon-text{
+  padding-top: 12px;
+  padding-left:40px;
+}
+a:link {
+    text-decoration: none;
+}
+/* Basic settings */
+.ui-li-static.ui-collapsible {
+    padding: 0;
+}
+.ui-li-static.ui-collapsible > .ui-collapsible-content > .ui-listview,
+.ui-li-static.ui-collapsible > .ui-collapsible-heading {
+    margin: 0;
+}
+.ui-li-static.ui-collapsible > .ui-collapsible-content {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: 0;
+    border-bottom-width: 0;
+}
+/* collapse vertical borders */
+.ui-li-static.ui-collapsible > .ui-collapsible-content > .ui-listview > li.ui-last-child,
+.ui-li-static.ui-collapsible.ui-collapsible-collapsed > .ui-collapsible-heading > a.ui-btn {
+    border-bottom-width: 0;
+}
+.ui-li-static.ui-collapsible > .ui-collapsible-content > .ui-listview > li.ui-first-child,
+.ui-li-static.ui-collapsible > .ui-collapsible-content > .ui-listview > li.ui-first-child > a.ui-btn,
+.ui-li-static.ui-collapsible > .ui-collapsible-heading > a.ui-btn {
+    border-top-width: 0;
+}
+/* Remove right borders */
+.ui-li-static.ui-collapsible > .ui-collapsible-heading > a.ui-btn,
+.ui-li-static.ui-collapsible > .ui-collapsible-content > .ui-listview > .ui-li-static,
+.ui-li-static.ui-collapsible > .ui-collapsible-content > .ui-listview > li > a.ui-btn,
+.ui-li-static.ui-collapsible > .ui-collapsible-content {
+    border-right-width: 0;
+}
+/* Remove left borders */
+/* Here, we need class ui-listview-outer to identify the outermost listview */
+.ui-listview-outer > .ui-li-static.ui-collapsible .ui-li-static.ui-collapsible.ui-collapsible,
+.ui-listview-outer > .ui-li-static.ui-collapsible > .ui-collapsible-heading > a.ui-btn,
+.ui-li-static.ui-collapsible > .ui-collapsible-content {
+    border-left-width: 0

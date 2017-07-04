@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.uc3m.tfgmaps" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>DestiMap</name>
+    <description>
+        UN SISTEMA WEB PARA CREAR MAPAS AUMENTADAS PARA EL TURISMO 2.0
+    </description>
+    <author email="100292677@alumnos.uc3m.es">
+        Aarón Laro de La Iglesia
+    </author>
+    <content src="index.html" />
+    <icon src="res/map.png"/>
+    <plugin name="cordova-plugin-whitelist" spec="1" />
+    <plugin name="com.wikitude.phonegap.WikitudePlugin" spec="https://github.com/Wikitude/wikitude-cordova-plugin.git" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+    <preference name="orientation" value="portrait" />
+</widget>
