@@ -4,6 +4,11 @@ $( document ).on( "pagecreate", "#index", function() {
   var data = getMapas(mapKey);
   if (data!=null){
     populateListMap(data);
+    $('#info-text').hide();
+    $('#download-maps').text('Actualizar Mapas');
+  }else{
+    $('#info-text').show();
+    $('#download-maps').text('Descargar mapas');
   }
   checkListMap('#maps',"#map-search");
 });
@@ -11,6 +16,13 @@ $( document ).on( "pagecreate", "#index", function() {
 $( document ).on( "pagebeforeshow", "#index", function() {
   var TAG = "pagebeforeshow index"
   console.log("---> "+ TAG + "<---");
+  if ($('#maps').children('li').length > 0) {
+    $('#info-text').hide();
+    $('#download-maps').text('Actualizar Mapas');
+  }else{
+    $('#info-text').show();
+    $('#download-maps').text('Descargar mapas');
+  }
   var id_mapa = getIdMap(idMapKey);
   var poisByDistanceKey = "poi_map_distancia_" +id_mapa
   removePoisByDistance(poisByDistanceKey)
@@ -62,7 +74,6 @@ $( document ).on( "pagebeforeshow", "#poi-list", function() {
         }
       });
       $('#pois').html(output).listview("refresh");
-      //poiByCategory(id_mapa,filtro);
     }
   }
 })
@@ -103,13 +114,6 @@ $( document ).on( "pagebeforeshow", "#detail-poi", function() {
 })
 
 $(document).ready(function() {
-  /*función que se encarga de manejar al clicar el enlace
-  de detalle de un POI*/
-
-  $('body').on('click', '#enlace_poi', function(event) {
-    console.log("seleccionado enlace_poi");
-  })
-
   /*Función que maneja el clickado de un POI almacenando
   los detalles con la clave: detailPoi para presentarlos
   en la pagina de detalle*/
@@ -212,6 +216,13 @@ loadPois = function(id_mapa){
          url:'http://tfg1617maps.zapto.org:8080/verPOI?id=' + id_mapa + '&app=true',
          method: 'get',
          success : function(res){
+           if ($('#maps').children('li').length > 0) {
+             $('#info-text').hide();
+            $('#download-maps').text('Actualizar Mapas');
+          }else{
+            $('#info-text').show();
+            $('#download-maps').text('Descargar mapas');
+          }
            var poiskey = "poi_map_" +id_mapa
            setPOIS(res.poiList,poiskey)
          },

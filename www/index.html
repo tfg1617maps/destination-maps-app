@@ -30,7 +30,13 @@
     </div>
     <div data-role="content">
       <div style="margin:0 auto;margin-left:auto;margin-right:auto;align:center;text-align:center;">
-        <a href="javascript:loadMaps()" class="ui-btn ui-btn-inline ui-icon-arrow-d ui-btn-icon-left">Actualizar listado mapas</a>
+        <a id="download-maps" href="javascript:loadMaps()" class="ui-btn ui-btn-inline ui-icon-arrow-d ui-btn-icon-left">Descargar mapas</a>
+        <div id="info-text">
+          <p>
+            Bienvenido a DestiMap, para poder comenzar a disfrutar de nuestra aplicación utilice el boton superior para descargar el listado actualizado
+            de mapas de la aplicación y con él, sacar el máximo partido al turismo 2.0
+          </p>
+        </div>
       </div>
       <form class="ui-filterable hide-element" id="map-search">
         <input id="filterBasic-input" data-type="search">
@@ -43,7 +49,7 @@
   <div data-role="page" id="map-page" data-theme="b">
     <div data-role="header" id="header">
       <div style="float:left;">
-        <a href="#" class="ui-btn-left ui-btn ui-icon-carat-l ui-btn-icon-notext ui-corner-all" data-rel="back">No text</a>
+        <a href="#index" class="ui-btn-left ui-btn ui-icon-carat-l ui-btn-icon-notext ui-corner-all">No text</a>
       </div>
       <div>
         <h1 class="header-title" id="header_title_map"></h1>
@@ -75,7 +81,7 @@
   <div data-role="page" id="poi-list" data-theme="b">
     <div data-role="header" data-position="fixed">
       <div style="float:left;">
-        <a href="#" class="ui-btn-left ui-btn ui-icon-carat-l ui-btn-icon-notext ui-corner-all" data-rel="back">No text</a>
+        <a href="#map-page" class="ui-btn-left ui-btn ui-icon-carat-l ui-btn-icon-notext ui-corner-all">No text</a>
       </div>
       <div>
         <h1 class="header-title">Listado de POIS</h1>
