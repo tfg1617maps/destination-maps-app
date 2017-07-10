@@ -11,6 +11,21 @@
   margin-left: 40px;
   margin-right: 40px;
 }
+.detail-title{
+  font-size: 1.4em;
+  vertical-align: middle;
+  min-height: 1.1em;
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  outline: 0 !important;
+}
+.detail-title1{
+  font-size: 1.4em;
+  vertical-align: middle;
+  min-height: 1.1em;
+}
 .imgThumb{
   width: 80px;
   height: 80px;
