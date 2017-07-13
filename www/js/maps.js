@@ -44,7 +44,6 @@ function obtenerUbicacion(){
       var data = getMapLocation(mapLocationKey)
       almacenarUbicacion(data.latitud,data.longitud);
     }
-    // Find the users current position.  Cache the location for 5 minutes, timeout after 6 seconds
     navigator.geolocation.getCurrentPosition(success, fail);
   }else{
     console.log("imposible obtener ubicacion de usuario");
@@ -151,6 +150,7 @@ createMap = function(){
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
   map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+  //map.setMyLocationEnabled(true);
   drawMap();
 }
 
@@ -192,15 +192,29 @@ drawMarkers = function(map, infoWindow, data){
         console.log("clicamos el marcador");
         var detailPoiKey = "detailPoi"
         setDetailPoi(data[index], detailPoiKey)
-        var content = '<div id="iw-container">' +
-            '<div class="iw-title"><strong>'+dataMarker.titulo+'</strong></div>' +
-            '<div class="iw-content">' +
-              '<div style=float:left><p style="text-align:right">'+dataMarker.categoria+'</p></div>' +
-              '<div><p style="text-align:right">Distancia: '+'<strong>'+dataMarker.distancia_poi+' Km.</strong></p></div>' +
-              '<p style="text-align:right">'+dataMarker.direccion+'</p>' +
-              '<div style="text-align:right"><a href="#detail-poi">+ info </a></div>' +
-            '</div>'+
-          '</div>';
+        if(dataMarker.contenido=="si"){
+          var content = '<div id="iw-container">' +
+              '<div class="iw-title"><strong>'+dataMarker.titulo+'</strong></div>' +
+              '<div class="iw-content">' +
+                '<div style=float:left><p style="text-align:right">'+dataMarker.categoria+'</p></div>' +
+                '<div><p style="text-align:right">Distancia: '+'<strong>'+dataMarker.distancia_poi+' Km.</strong></p></div>' +
+                '<p style="text-align:right">'+dataMarker.direccion+'</p>' +
+                '<div style="float:left; text-align:left;"><a href="javascript:app.loadExampleARchitectWorld()"><img src="img/ar-icon.png"></a></div>' +
+                '<div style="float:right; text-align:right;margin-top:16px"><a href="#detail-poi">+ info </a></div>' +
+              '</div>'+
+            '</div>';
+        }else{
+          var content = '<div id="iw-container">' +
+              '<div class="iw-title"><strong>'+dataMarker.titulo+'</strong></div>' +
+              '<div class="iw-content">' +
+                '<div style=float:left><p style="text-align:right">'+dataMarker.categoria+'</p></div>' +
+                '<div><p style="text-align:right">Distancia: '+'<strong>'+dataMarker.distancia_poi+' Km.</strong></p></div>' +
+                '<p style="text-align:right">'+dataMarker.direccion+'</p>' +
+                '<div style="float:right; text-align:right;"><a href="#detail-poi">+ info </a></div>' +
+              '</div>'+
+            '</div>';
+        }
+
         infoWindow.setContent(content);
         infoWindow.open(map, marker);
       });
