@@ -139,14 +139,75 @@ var World = {
 	locationChanged: function locationChangedFn(lat, lon, alt, acc) {
 		if (!World.initiallyLoadedData) {
 			World.data = JSON.parse(window.localStorage.getItem(World.detailPoiKey));
+			//coordenadas del elemento1
 			var latitud = Number(World.data.latitud)
 			var longitud = Number(World.data.longitud)
+			//altura del elemento1
+			var altitud1
+			//altura del elemento2
+			var altitud2
+			//altura del elemento3
+			var altitud3
+			//coordenadas del elemento2
+			var lat2;
+			var lon2;
+			//coordenadas del elemento3
+			var lat3;
+			var lon3;
+
+			if(World.data.altura1!=null){
+				altitud1=World.data.altura1;
+			}else{
+				altitud1=AR.CONST.UNKNOWN_ALTITUDE
+			}
+			if(World.data.altura2!=null){
+				altitud2=World.data.altura2;
+			}else{
+				altitud2=AR.CONST.UNKNOWN_ALTITUDE
+			}
+			if(World.data.altura3!=null){
+				altitud3=World.data.altura3;
+			}else{
+				altitud3=AR.CONST.UNKNOWN_ALTITUDE
+			}
+			switch (World.data.posicion2) {
+				case "izquierda":
+					lat2 = (lat-0.0001)
+					lon2 = lon
+					break;
+				case "derecha":
+					lat2 = (lat+0.0001)
+					lon2 = lon
+					break;
+				case "atras":
+					lat2 = lat
+					lon2 = (lon-0,0001)
+					break;
+				default:
+
+			}
+			switch (World.data.posicion3) {
+				case "izquierda":
+					lat2 = (lat-0.0001)
+					lon2 = lon
+					break;
+				case "derecha":
+					lat2 = (lat+0.0001)
+					lon2 = lon
+					break;
+				case "atras":
+					lat2 = lat
+					lon2 = (lon-0,0001)
+					break;
+				default:
+
+			}
 			var poiData = [
 				{
 					"id": 1,
 					"latitude": latitud,
 					"longitude": longitud,
-					"altitude": AR.CONST.UNKNOWN_ALTITUDE,
+					"altitude": altitud1,
 					"elemento": World.data.elemento1,
 					"archivo": World.data.archivo1,
 					"tamanio": Number(World.data.tamanio1),
@@ -154,9 +215,9 @@ var World = {
 				},
 				{
 					"id": 2,
-					"latitude": (latitud + 0.1),
-					"longitude": (longitud + 0.1),
-					"altitude": AR.CONST.UNKNOWN_ALTITUDE,
+					"latitude": lat2,
+					"longitude": lon2,
+					"altitude": altitud2,
 					"elemento": World.data.elemento2,
 					"archivo": World.data.archivo2,
 					"tamanio": Number(World.data.tamanio2),
@@ -164,9 +225,9 @@ var World = {
 				},
 				{
 					"id": 3,
-					"latitude": (latitud - 0.1),
-					"longitude": (longitud - 0.1),
-					"altitude": AR.CONST.UNKNOWN_ALTITUDE,
+					"latitude": lat3,
+					"longitude": lon3,
+					"altitude": altitud3,
 					"elemento": World.data.elemento3,
 					"archivo": World.data.archivo3,
 					"tamanio": Number(World.data.tamanio3),
