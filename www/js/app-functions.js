@@ -1,3 +1,8 @@
+document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+        console.log("navigator.geolocation works well");
+    }
+
 $( document ).on( "pagecreate", "#index", function() {
   var TAG = "pagecreate index"
   console.log("---> "+ TAG + "<---");
@@ -16,6 +21,12 @@ $( document ).on( "pagecreate", "#index", function() {
 $( document ).on( "pagebeforeshow", "#index", function() {
   var TAG = "pagebeforeshow index"
   console.log("---> "+ TAG + "<---");
+  if(watchID!=null){
+    console.log("es distinto de null: " + watchID);
+    navigator.geolocation.clearWatch(watchID);
+  }else{
+    console.log("es null");
+  }
   if ($('#maps').children('li').length > 0) {
     $('#info-text').hide();
     $('#download-maps').text('Actualizar Mapas');
@@ -75,6 +86,11 @@ $( document ).on( "pagebeforeshow", "#poi-list", function() {
       });
       $('#pois').html(output).listview("refresh");
     }
+  }else{
+    var id_mapa = getIdMap(idMapKey);
+    var poiskey = "poi_map_" +id_mapa
+    var data = getPOIS(poiskey)
+    populateListPoi(data);
   }
 })
 $( document ).on( "pagecreate", "#detail-poi", function() {
@@ -267,54 +283,4 @@ populateListPoi = function(data){
     '</a></li>'
   });
   $('#pois').html(output).listview("refresh");
-}
-function poiByCategory(id,categoria){
-  $.ajax({
-    url:'http://tfg1617maps.zapto.org:8080/categoryfilter?id_mapa='+id+'&categoria='+categoria,
-    method: 'get',
-    success : function(res){
-      addDistance(res.poiList)
-    },
-    error: function () {
-      alert('No se puede filtrar en estos momentos.');
-    }
-  });
-}
-function addDistance(data){
-  var id_mapa = getIdMap(idMapKey)
-  var poiskey = "poi_map_" +id_mapa
-  var ubicacion = getUserLocation(userLocationKey)
-  for(var i = 0; i<data.length;i++){
-    var posicionPOI = JSON.parse('{"lat":"'+ data[i].latitud +'","lon":"'+ data[i].longitud + '"}');
-    var distancia = haversineDistance(ubicacion,posicionPOI)
-    data[i].distancia_poi = distancia;
-  }
-  setPOISOrdered(data,orderedKey)
-  populateListPoi(data);
-}
-loadCategoria = function(id_mapa){
-  var TAG = "loadCategoria";
-  console.log("pasamos por aqui");
-  $(document).ready(function() {
-       $.ajax({
-         url:'http://tfg1617maps.zapto.org:8080/categoria?id_mapa=' + id_mapa,
-         method: 'get',
-         success : function(res){
-           console.log(res.categoria);
-           var select = document.getElementById('select-choice-a');
-           console.log("el select es: "+select);
-           $.each(res.categoria, function (index, value) {
-             console.log("creando parametros");
-             var opt = document.createElement('option');
-             opt.value = opt.text=value.categoria;
-             select.appendChild(opt);
-           })
-           select.selectmenu('refresh', true);
-         },
-         error: function () {
-           alert('Hay un problema para obtener el listado de categorias del mapa dado');
-           return null;
-         }
-       });
-  });
 }
