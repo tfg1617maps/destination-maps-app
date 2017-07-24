@@ -22,10 +22,10 @@ $( document ).on( "pagebeforeshow", "#index", function() {
   var TAG = "pagebeforeshow index"
   console.log("---> "+ TAG + "<---");
   if(watchID!=null){
-    console.log("es distinto de null: " + watchID);
+    console.log("control de posicion usuario es distinto de null: " + watchID);
     navigator.geolocation.clearWatch(watchID);
   }else{
-    console.log("es null");
+    console.log("control de posicion usuario es null");
   }
   if ($('#maps').children('li').length > 0) {
     $('#info-text').hide();

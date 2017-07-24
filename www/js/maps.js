@@ -129,8 +129,6 @@ function orderByDistance(){
   var poiskey = "poi_map_" +id_mapa
   var poisByDistanceKey = "poi_map_distancia_" +id_mapa
   var ubicacion = getUserLocation(userLocationKey)
-  console.log("latitud: " + ubicacion.lat);
-  console.log("longitud: " + ubicacion.lon);
   //POI almacenados del mapa
   var data = getPOIS(poiskey)
   //calculamos las distancias de cada POI con la distancia del usuario
@@ -138,7 +136,6 @@ function orderByDistance(){
     var posicionPOI = JSON.parse('{"lat":"'+ data[i].latitud +'","lon":"'+ data[i].longitud + '"}');
     var distancia = obtainDistance(ubicacion,posicionPOI)
     data[i].distancia_poi = distancia;
-    console.log("la distancia es: " + distancia);
   }
   //almacenamos los POIS ordenados por categorias con la distancia actualizada
   setPOIS(data,poiskey)
@@ -156,6 +153,7 @@ function centrarUsuario(){
     console.log("coordenadas obtenidas con exito vamos a centrar usuario");
     var latlng = new google.maps.LatLng(coordenadas.lat, coordenadas.lon)
     map.setCenter(latlng)
+    map.setZoom(16);
   }else{
     console.log("no disponemos de coordenadas no podemos centrar al usuario");
   }
@@ -177,7 +175,7 @@ de obtener la ubicación del usuario*/
 function drawMap(){
   var cityLatLng = getCoordenadasCiudad();
   var myOptions = {
-    zoom: 16,
+    zoom: 12,
     center: cityLatLng,
     disableDefaultUI: true,
     zoomControl: true,
@@ -189,6 +187,20 @@ function drawMap(){
   obtenerUbicacion();
 }
 
+function drawUserMarker(coordenadas){
+  console.log("Dibujamos el marcador del usuario");
+  if(userMarker!=null){
+    console.log("usuario creado, actualizamos posicion");
+    userMarker.setPosition(coordenadas)
+  }else{
+    userMarker = new google.maps.Marker({
+      position: coordenadas,
+      map: map,
+      icon: 'img/user_location.png'
+    });
+  }
+}
+
 /*dibuja una marca en el mapa por cada elemento pasado como parametro
 data en el mapa map y le añade una ventana de información al clickar en
 la marca en el mapa, ademas añade una marca en la posicion del usuario*/
@@ -198,11 +210,7 @@ function drawMarkers(map, infoWindow, data){
   el marcador con la posicion del usuario*/
   var coordenadas = getUserLocation(userLocationKey)
   var latlng = new google.maps.LatLng(coordenadas.lat, coordenadas.lon)
-  userMarker = new google.maps.Marker({
-    position: latlng,
-    map: map,
-    icon: 'img/user_location.png'
-  });
+  drawUserMarker(latlng)
   //vamos a crear los marcadores del mapa
   for (var i = 0; i < data.length; i++) {
     var dataMarker = data[i];
@@ -221,14 +229,7 @@ function drawMarkers(map, infoWindow, data){
 function updateMarkers(map, infoWindow, data){
   var coordenadas = getUserLocation(userLocationKey)
   var latlng = new google.maps.LatLng(coordenadas.lat, coordenadas.lon)
-  if(userMarker!=null){
-    userMarker.setMap(null)
-  }
-  userMarker = new google.maps.Marker({
-    position: latlng,
-    map: map,
-    icon: 'img/user_location.png'
-  });
+  drawUserMarker(latlng);
   for (var i = 0; i < data.length; i++) {
     //Attach click event to the marker.
     (function (marker, dataMarker,index) {
