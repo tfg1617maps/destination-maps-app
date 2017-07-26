@@ -23,7 +23,9 @@ $( document ).on( "pagebeforeshow", "#index", function() {
   console.log("---> "+ TAG + "<---");
   if(watchID!=null){
     console.log("control de posicion usuario es distinto de null: " + watchID);
+    //detenemos la obtenicion dinamica de posicion y vaciamos array de marcadores
     navigator.geolocation.clearWatch(watchID);
+    markers=[]
   }else{
     console.log("control de posicion usuario es null");
   }
@@ -102,16 +104,14 @@ $( document ).on( "pagebeforeshow", "#detail-poi", function() {
   var TAG = "pagebeforeshow detail-poi";
   console.log("---> "+ TAG + "<---");
   var data = getDetailPoi(detailPoiKey)
-  console.log("la distancia poi es: " + data.distancia_poi);
-  console.log("la distancia es: " + data.distancia);
-  if(data.distancia_poi>=data.distancia){
-    $('#ar-button').addClass('ui-disabled');
-  }else{
-    $('#ar-button').removeClass('ui-disabled');
-  }
   if(data.contenido=="no"){
     $('#ar-button').hide()
   }else{
+    if(data.distancia_poi>=data.distancia){
+      $('#ar-button').addClass('ui-disabled');
+    }else{
+      $('#ar-button').removeClass('ui-disabled');
+    }
     $('#ar-button').show()
   }
   $("#titulo_poi").text(data.titulo);
@@ -128,7 +128,14 @@ $( document ).on( "pagebeforeshow", "#detail-poi", function() {
     $("#enlace_poi").text("Visitar sitio web");
   }
 })
-
+$( document ).on( "pageshow", "#detail-poi", function() {
+  var data = getDetailPoi(detailPoiKey)
+  if(data.contenido=="si"){
+    if(data.distancia_poi>=data.distancia){
+      maximunDistance(data.distancia_poi,data.distancia)
+    }
+  }
+})
 $(document).ready(function() {
   /*Función que maneja el clickado de un POI almacenando
   los detalles con la clave: detailPoi para presentarlos

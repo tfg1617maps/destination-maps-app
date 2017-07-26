@@ -3,7 +3,6 @@ var map;
 var userMarker;
 var watchID;
 var markers = [];
-var markersListener = [];
 
 /*Función ejecutada antes de mostrar la pagina del mapas
 se encarga de actualizar el titulo de la pagina y vaciar
@@ -38,6 +37,7 @@ $(document).on( "pageshow", "#map-page", function() {
     drawMap()
   }
 });
+
 /*obtiene la ubicacion de usuario y la almacena para ser
 utilizada poseteriormente por la aplicación*/
 function obtenerUbicacion(){
@@ -85,29 +85,22 @@ function almacenarUbicacion(latitud,longitud){
     //creamos los marcadores
     console.log("creamos los marcadores");
     data = getPOIS(poiskey)
-    drawMarkers(map,infoWindow,data);
+    createMarkers(map,infoWindow,data);
   }else{
-    console.log("sucesivos accesos");
     //sucesivos accesos al mapa si disponemos de posicion almacenada.
     //si la posicion del usuario cambia recalcular distancias
-    console.log("latitud antigua: " + userLocation.lat);
-    console.log("latitud nueva: " + latitud);
-    console.log("longitud antigua: " + userLocation.lon);
-    console.log("longitud nueva: " + longitud);
     if(userLocation.lat != latitud || userLocation.lon != longitud){
       console.log("nuevas coordenadas");
-      //navigator.geolocation.clearWatch(watchID);
-      for (var i = 0; i < markersListener.length; i++) {
-        google.maps.event.removeListener(markersListener[i]);
+      if(userMarker!=null){
+        var coordenadas = new google.maps.LatLng(latitud, longitud);
+        drawUserMarker(coordenadas)
       }
-      markersListener = []
       //almacenamos nueva posicion del usuario.
       setUserLocation(ubicacion,userLocationKey)
       //ordenamos los POI por distancia
       orderByDistance();
       console.log("actualizar marcadores");
       data = getPOIS(poiskey)
-      updateMarkers(map, infoWindow, data)
     }
   }
 }
@@ -152,6 +145,7 @@ function centrarUsuario(){
   if(coordenadas!=null){
     console.log("coordenadas obtenidas con exito vamos a centrar usuario");
     var latlng = new google.maps.LatLng(coordenadas.lat, coordenadas.lon)
+    drawUserMarker(latlng)
     map.setCenter(latlng)
     map.setZoom(16);
   }else{
@@ -204,13 +198,8 @@ function drawUserMarker(coordenadas){
 /*dibuja una marca en el mapa por cada elemento pasado como parametro
 data en el mapa map y le añade una ventana de información al clickar en
 la marca en el mapa, ademas añade una marca en la posicion del usuario*/
-function drawMarkers(map, infoWindow, data){
+function createMarkers(map, infoWindow, data){
   console.log("pintamos los marcadores");
-  /*obtenemos las coordenadas del usuario para crear
-  el marcador con la posicion del usuario*/
-  var coordenadas = getUserLocation(userLocationKey)
-  var latlng = new google.maps.LatLng(coordenadas.lat, coordenadas.lon)
-  drawUserMarker(latlng)
   //vamos a crear los marcadores del mapa
   for (var i = 0; i < data.length; i++) {
     var dataMarker = data[i];
@@ -223,47 +212,70 @@ function drawMarkers(map, infoWindow, data){
     });
     markers.push(marker);
   }
-  updateMarkers(map,infoWindow,data)
+  drawMarkers(map,infoWindow,data)
 }
 
-function updateMarkers(map, infoWindow, data){
+function drawMarkers(map, infoWindow, data){
   var coordenadas = getUserLocation(userLocationKey)
   var latlng = new google.maps.LatLng(coordenadas.lat, coordenadas.lon)
-  drawUserMarker(latlng);
   for (var i = 0; i < data.length; i++) {
     //Attach click event to the marker.
     (function (marker, dataMarker,index) {
-      var markerHandlerElement = google.maps.event.addListener(marker, "click", function (e) {
-      console.log("clicamos el marcador actualizado");
-      var detailPoiKey = "detailPoi"
-      setDetailPoi(data[index], detailPoiKey)
-      if(dataMarker.contenido=="si"){
-        var content = '<div id="iw-container">' +
-          '<div class="iw-title"><strong>'+dataMarker.titulo+'</strong></div>' +
-            '<div class="iw-content">' +
-              '<div style=float:left><p style="text-align:right">'+dataMarker.categoria+'</p></div>' +
-              '<div><p style="text-align:right">Distancia: '+'<strong>'+dataMarker.distancia_poi+' Km.</strong></p></div>' +
-              '<p style="text-align:right">'+dataMarker.direccion+'</p>' +
-              '<div style="float:left; text-align:left;"><a href="javascript:app.loadExampleARchitectWorld()"><img src="img/ar-icon.png"></a></div>' +
-              '<div style="float:right; text-align:right;margin-top:16px"><a href="#detail-poi">+ info </a></div>' +
-            '</div>'+
-          '</div>';
-        }else{
-          var content = '<div id="iw-container">' +
-            '<div class="iw-title"><strong>'+dataMarker.titulo+'</strong></div>' +
-              '<div class="iw-content">' +
-                '<div style=float:left><p style="text-align:right">'+dataMarker.categoria+'</p></div>' +
-                '<div><p style="text-align:right">Distancia: '+'<strong>'+dataMarker.distancia_poi+' Km.</strong></p></div>' +
-                '<p style="text-align:right">'+dataMarker.direccion+'</p>' +
-                '<div style="float:right; text-align:right;"><a href="#detail-poi">+ info </a></div>' +
-              '</div>'+
-            '</div>';
-        }
-        infoWindow.setContent(content);
-        infoWindow.open(map, marker,content);
+      google.maps.event.addListener(marker, "click", function (e) {
+        console.log("clicamos el marcador");
+        fillInfoWindow(index,infoWindow);
       });
-      markersListener.push(markerHandlerElement)
     })(markers[i], data[i],i);
   }
   console.log("el tamaño del listener de eventos es: " + markersListener.length);
+}
+
+function fillInfoWindow(index,infoWindow){
+  console.log("abrimos la ventana");
+  var id_mapa = getIdMap(idMapKey)
+  var poiskey = "poi_map_" +id_mapa
+  var data = getPOIS(poiskey);
+  var detailPoiKey = "detailPoi"
+  setDetailPoi(data[index], detailPoiKey)
+  if(data[index].contenido=="si"){
+    if(data[index].distancia_poi>=data[index].distancia){
+      var content = '<div id="iw-container">' +
+      '<div class="iw-title"><strong>'+data[index].titulo+'</strong></div>' +
+      '<div class="iw-content">' +
+      '<div style=float:left><p style="text-align:right">'+data[index].categoria+'</p></div>' +
+      '<div><p style="text-align:right">Distancia: '+'<strong>'+data[index].distancia_poi+' Km.</strong></p></div>' +
+      '<p style="text-align:right">'+data[index].direccion+'</p>' +
+      '<div style="float:left; text-align:left;"><a href="javascript:maximunDistance('+data[index].distancia_poi+','+data[index].distancia+')"><img src="img/ar-icon.png"></a></div>' +
+      '<div style="float:right; text-align:right;margin-top:16px"><a href="#detail-poi">+ info </a></div>' +
+      '</div>'+
+      '</div>';
+    }else{
+      var content = '<div id="iw-container">' +
+      '<div class="iw-title"><strong>'+data[index].titulo+'</strong></div>' +
+      '<div class="iw-content">' +
+      '<div style=float:left><p style="text-align:right">'+data[index].categoria+'</p></div>' +
+      '<div><p style="text-align:right">Distancia: '+'<strong>'+data[index].distancia_poi+' Km.</strong></p></div>' +
+      '<p style="text-align:right">'+data[index].direccion+'</p>' +
+      '<div style="float:left; text-align:left;"><a href="javascript:app.loadExampleARchitectWorld()"><img src="img/ar-icon.png"></a></div>' +
+      '<div style="float:right; text-align:right;margin-top:16px"><a href="#detail-poi">+ info </a></div>' +
+      '</div>'+
+      '</div>';
+    }
+
+  }else{
+    var content = '<div id="iw-container">' +
+    '<div class="iw-title"><strong>'+data[index].titulo+'</strong></div>' +
+    '<div class="iw-content">' +
+    '<div style=float:left><p style="text-align:right">'+data[index].categoria+'</p></div>' +
+    '<div><p style="text-align:right">Distancia: '+'<strong>'+data[index].distancia_poi+' Km.</strong></p></div>' +
+    '<p style="text-align:right">'+data[index].direccion+'</p>' +
+    '<div style="float:right; text-align:right;"><a href="#detail-poi">+ info </a></div>' +
+    '</div>'+
+    '</div>';
+  }
+  infoWindow.setContent(content);
+  infoWindow.open(map, markers[index],content);
+}
+function maximunDistance(distancia_usuario,distancia_ar){
+  alert("Para disfrutar la experiencia debe estar a: " + distancia_ar + " Km, por favor acerquese al punto de interes para disfrutar la experiencia")
 }
