@@ -165,34 +165,33 @@ var World = {
 			}else{
 			  altitud3=AR.CONST.UNKNOWN_ALTITUDE
 			}
-			AR.logger.debug("posicion: " + World.data.posicion2)
 			switch (World.data.posicion2) {
 			  case "izquierda":
-			    lat2 = (latitud-0.0001)
-			    lon2 = longitud
+			    lat2 = (lat-0.0001)
+			    lon2 = lon
 			    break;
 			  case "derecha":
-			    lat2 = (latitud+0.0001)
-			    lon2 = longitud
+			    lat2 = (lat+0.0001)
+			    lon2 = lon
 			    break;
 			  case "atras":
-			    lat2 = latitud
-			    lon2 = (longitud-0,0001)
+			    lat2 = lat
+			    lon2 = (lon-0.0001)
 			    break;
 			  default:
 			}
 			switch (World.data.posicion3) {
 			  case "izquierda":
-			    lat2 = (latitud-0.0001)
-			    lon2 = longitud
+			    lat3 = (lat-0.0001)
+			    lon3 = lon
 			    break;
 			  case "derecha":
-			    lat2 = (latitud+0.0001)
-			    lon2 = longitud
+			    lat3 = (lat+0.0001)
+			    lon3 = lon
 			    break;
 			  case "atras":
-			    lat2 = latitud
-			    lon2 = (longitud-0,0001)
+			    lat3 = lat
+			    lon3 = (lon-0.0001)
 			    break;
 			  default:
 			}
