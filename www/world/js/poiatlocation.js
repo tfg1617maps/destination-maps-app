@@ -2,11 +2,10 @@
 var World = {
 	// true once data was fetched
 	initiallyLoadedData: false,
-	markerDrawable_directionIndicator: null,
 	detailPoiKey: "detailPoi",
 	data: null,
-	createImageElement: function createImageElementFn(tamanio, markerDrawable_idle,markerLocation){
-		var directionIndicatorDrawable = new AR.ImageDrawable(World.markerDrawable_directionIndicator, 0.1, {
+	createImageElement: function createImageElementFn(tamanio, markerDrawable_idle,markerLocation,indicador){
+		var directionIndicatorDrawable = new AR.ImageDrawable(indicador, 0.1, {
         enabled: true,
         verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP
     });
@@ -24,33 +23,25 @@ var World = {
 			}
 		});
 	},
-	createVideoElement: function createVideoElementFn(url, transparencia, tamanio,markerLocation){
-		var directionIndicatorDrawable = new AR.ImageDrawable(World.markerDrawable_directionIndicator, 0.1, {
+	createVideoElement: function createVideoElementFn(url, transparencia, tamanio,markerLocation,indicador){
+		//creamos el indicador para localizar el elemento aumentado
+		var directionIndicatorDrawable = new AR.ImageDrawable(indicador, 0.1, {
         enabled: true,
         verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP
     });
+		//detectamos si el video es transparente
 		if(transparencia=='yes'){
+			//video transparente
 			var video = new AR.VideoDrawable(url, tamanio, {
 					isTransparent: true,
 					onLoaded: function videoLoaded() {
 					},
 					onPlaybackStarted: function videoPlaying () {
-							video.enabled = true;
+        		video.enabled = true;
 					},
 					onFinishedPlaying: function videoFinished () {
-							video.playing = false;
-							video.enabled = false;
-					},
-					onClick: function videoClicked () {
-							if (video.playing) {
-									video.pause();
-									video.playing = false;
-									playButton.enabled = true;
-							} else {
-									video.resume();
-									video.playing = true;
-									playButton.enabled = true;
-							}
+						video.playing = false;
+						video.enabled = false;
 					}
 			});
 		}else{
@@ -72,21 +63,25 @@ var World = {
 							} else {
 									video.resume();
 									video.playing = true;
-									playButton.enabled = true;
 							}
 					}
 			});
 		}
 		var markerObject = new AR.GeoObject(markerLocation, {
 			onEnterFieldOfVision : function(){
-				video.resume();
-				video.playing = true;
-				playButton.enabled = true;
+				if (this.hasVideoStarted) {
+            video.resume();
+        }
+        else {
+            this.hasVideoStarted = true;
+            video.play(-1);
+						video.playing = true;
+						playButton.enabled = true;
+        }
 			},
 			onExitFieldOfVision : function(){
 				video.pause();
 				video.playing = false;
-				playButton.enabled = true;
 			},
 			drawables: {
 				cam: [video],
@@ -98,8 +93,8 @@ var World = {
 	loadPoisFromJsonData: function loadPoisFromJsonDataFn(poiData) {
 		var elements = 0;
 		var markers =[];
-		World.markerDrawable_directionIndicator = new AR.ImageResource("assets/indi.png");
 		for (var element = 0; element < poiData.length; element++) {
+			var indicador = new AR.ImageResource("assets/indi"+ element +".png");
 			var elemento = poiData[element].elemento
 			if(elemento != null){
 				elements ++;
@@ -110,11 +105,11 @@ var World = {
 					//assets/JulianBesteiro.jpg
 					var url = "http://tfg1617maps.zapto.org:8080/downloads?name="+poiData[element].archivo
 					var markerDrawable_idle = new AR.ImageResource(url);
-					World.createImageElement(poiData[element].tamanio,markerDrawable_idle,markers[element]);
+					World.createImageElement(poiData[element].tamanio,markerDrawable_idle,markers[element],indicador);
 				}else if(elemento=='video'){
 					//creamos un elemento AR video
 					var url = "http://tfg1617maps.zapto.org:8080/downloads?name="+poiData[element].archivo
-					World.createVideoElement(url, poiData[element].transparencia, poiData[element].tamanio,markers[element]);
+					World.createVideoElement(url, poiData[element].transparencia, poiData[element].tamanio,markers[element],indicador);
 				}
 			}
 		}
@@ -154,53 +149,52 @@ var World = {
 			//coordenadas del elemento3
 			var lat3;
 			var lon3;
-
+			/*revisamos las alturas de cada uno de los elementos*/
 			if(World.data.altura1!=null){
-				altitud1=World.data.altura1;
+			  altitud1=World.data.altura1;
 			}else{
-				altitud1=AR.CONST.UNKNOWN_ALTITUDE
+			  altitud1=AR.CONST.UNKNOWN_ALTITUDE
 			}
 			if(World.data.altura2!=null){
-				altitud2=World.data.altura2;
+			  altitud2=World.data.altura2;
 			}else{
-				altitud2=AR.CONST.UNKNOWN_ALTITUDE
+			  altitud2=AR.CONST.UNKNOWN_ALTITUDE
 			}
 			if(World.data.altura3!=null){
-				altitud3=World.data.altura3;
+			  altitud3=World.data.altura3;
 			}else{
-				altitud3=AR.CONST.UNKNOWN_ALTITUDE
+			  altitud3=AR.CONST.UNKNOWN_ALTITUDE
 			}
+			AR.logger.debug("posicion: " + World.data.posicion2)
 			switch (World.data.posicion2) {
-				case "izquierda":
-					lat2 = (lat-0.0001)
-					lon2 = lon
-					break;
-				case "derecha":
-					lat2 = (lat+0.0001)
-					lon2 = lon
-					break;
-				case "atras":
-					lat2 = lat
-					lon2 = (lon-0,0001)
-					break;
-				default:
-
+			  case "izquierda":
+			    lat2 = (latitud-0.0001)
+			    lon2 = longitud
+			    break;
+			  case "derecha":
+			    lat2 = (latitud+0.0001)
+			    lon2 = longitud
+			    break;
+			  case "atras":
+			    lat2 = latitud
+			    lon2 = (longitud-0,0001)
+			    break;
+			  default:
 			}
 			switch (World.data.posicion3) {
-				case "izquierda":
-					lat2 = (lat-0.0001)
-					lon2 = lon
-					break;
-				case "derecha":
-					lat2 = (lat+0.0001)
-					lon2 = lon
-					break;
-				case "atras":
-					lat2 = lat
-					lon2 = (lon-0,0001)
-					break;
-				default:
-
+			  case "izquierda":
+			    lat2 = (latitud-0.0001)
+			    lon2 = longitud
+			    break;
+			  case "derecha":
+			    lat2 = (latitud+0.0001)
+			    lon2 = longitud
+			    break;
+			  case "atras":
+			    lat2 = latitud
+			    lon2 = (longitud-0,0001)
+			    break;
+			  default:
 			}
 			var poiData = [
 				{
@@ -225,8 +219,8 @@ var World = {
 				},
 				{
 					"id": 3,
-					"latitude": lat3,
-					"longitude": lon3,
+					"latitude": lat2,
+					"longitude": lon2,
 					"altitude": altitud3,
 					"elemento": World.data.elemento3,
 					"archivo": World.data.archivo3,
