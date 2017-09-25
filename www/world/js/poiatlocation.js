@@ -12,9 +12,6 @@ var World = {
 		var markerImageDrawable_idle = new AR.ImageDrawable(markerDrawable_idle, tamanio, {
 			zOrder: 0,
 			opacity: 1.0,
-			onClick: function imageClicked () {
-				alert("prueba")
-			}
 		});
 		var markerObject = new AR.GeoObject(markerLocation, {
 			drawables: {

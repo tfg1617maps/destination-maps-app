@@ -129,12 +129,6 @@ $( document ).on( "pagebeforeshow", "#detail-poi", function() {
   }
 })
 $( document ).on( "pageshow", "#detail-poi", function() {
-  var data = getDetailPoi(detailPoiKey)
-  if(data.contenido=="si"){
-    if(data.distancia_poi>=data.distancia){
-      maximunDistance(data.distancia_poi,data.distancia)
-    }
-  }
 })
 $(document).ready(function() {
   /*Función que maneja el clickado de un POI almacenando
