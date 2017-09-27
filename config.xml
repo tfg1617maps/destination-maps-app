@@ -8,9 +8,8 @@
         Aarón Laro de La Iglesia
     </author>
     <content src="index.html" />
-    <icon src="res/map.png"/>
+    <icon src="res/map.png" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
-    <plugin name="com.wikitude.phonegap.WikitudePlugin" spec="https://github.com/Wikitude/wikitude-cordova-plugin.git" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -26,4 +25,5 @@
         <allow-intent href="itms-apps:*" />
     </platform>
     <preference name="orientation" value="portrait" />
+    <plugin name="com.wikitude.phonegap.WikitudePlugin" spec="https://github.com/Wikitude/wikitude-cordova-plugin.git" />
 </widget>

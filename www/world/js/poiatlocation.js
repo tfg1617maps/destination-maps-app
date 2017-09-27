@@ -215,8 +215,8 @@ var World = {
 				},
 				{
 					"id": 3,
-					"latitude": lat2,
-					"longitude": lon2,
+					"latitude": lat3,
+					"longitude": lon3,
 					"altitude": altitud3,
 					"elemento": World.data.elemento3,
 					"archivo": World.data.archivo3,
@@ -224,8 +224,9 @@ var World = {
 					"transparencia": World.data.transparent3
 				}
 			];
-			World.loadPoisFromJsonData(poiData);
 			World.initiallyLoadedData = true;
+			World.loadPoisFromJsonData(poiData);
+
 		}
 	},
 };

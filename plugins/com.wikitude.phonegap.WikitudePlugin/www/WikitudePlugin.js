@@ -9,8 +9,8 @@
 		 *  This is the SDK Key, provided to you after you purchased the Wikitude SDK from http =//www.wikitude.com/store/.
 		 *  You can obtain a free trial key at http =//www.wikitude.com/developer/licenses .
 		 */
-		this._sdkKey="hDLp9Fs1xTqeHHKKW1krjIelrnnxAMtqD7FhtVTTQLD67swoXsSuoQ69Ng7DMAcOsIYWtCukFyyXF1sNWFkNEVo0sNt0w2A0osz/n3RzpghwBy/Tp27/OLO5a64OPt71mo9QIA3OKIOn++UtKI7ElfhJIBYP5kROACihC7fOXJ5TYWx0ZWRfX0kIrEc5f8RqztMo97UBhPUU3gpDLCdAjepqH1K7Yx21sCW0Fz+eAontVvaQB/Dv/fJzGSVnPXJg16Wjto+uTd3iwdKEzdG81qGM90cGEd1xKxJkk/0XbMkkK4SZ41DgIFZV5hp8H2i+3VxWJ540paq1dC/S/hJDOJyH5pBB1Aj3ocRYI6CuyONDkGpSRBkK3c360U2uzAz2lvD5nZvgs6uGEnt5byIcaEJMSFpnalRoWGw49tbGSDoMND+O7FNmyrXdu5hAQqH2I/th5Vkgs5ylRNpG0PzdV0S9OwhNRUpvQdjOogaShDfR24MC6+l6JX8jqG8gC3S8du0eLxFVDTk6hoHDPU50D8Lt0PViKhpp8KtQg1BC+uSvoP7PihACkwew+5hylFbLkRal4E5fTcGQQJWBsCpJJ2dCsYpBRIuctkKwIeG+FyksirSSHqD1m+a9l7GWBgUmfiQnNOoCO1MKRRhV99Rgd1aQMw2vwbh9xrIAFsbRbhmivnlOdkRSsORDF0J9TA67qgB5oY5Xb4kfcRC0bBLG4KEVt+bawJD+sxkg3tCbocc="
-		// this._sdkKey="M7YWAK7dEIkOxPgBdW0iy7qazLnzTiAUxjL3rq2RvBM5dkhgftbJ1zi/lODr+SzBqlXB8eU+XyGoB3NdcNoTnR/WAqKIZiBlWyJ2gbmcWxXbX/pKeecoHwXEuL2yFBWmj37sjNfE1FPfkn0Xx2EN5Jydm4pXQY3gGbOclce8rHlTYWx0ZWRfX0MkahETRvo5PgXNEhS22IdRgs7MqpDGpLimZyVPoyx96zQuNtLEs3jsB5kQ/wLyYKIjg85A8/flR4jc7LjNLI5To5fb+kiLGqGeVWzL7QvZ6m3NogFbtj21agbWbzc4bkwpc3WSq6rXgJW+nfeWV8ZlJ49Jw4rnuayuT1Q9jgiFk8muR2E4hiOFvCFYAMPn4hafFFGFrVwZohbVS4EAPPUSrSqMejYhzU7DL/5BbCiOwzuGsaRwX47hrs2YDacglRiGl4z3PUnMOsC5MUPfslJIhUUSoQgd6GY+TmYpW9NK9ULy5C9ApSEzVHJ3+QV30TYPujJtBgwJy87GM0Ou74DFnIu9kDkLgUmljPt4j8B13exd/r07A/0NY3xvfapwyRxJvkiY5Xb8YI5LTnw2HpqSkWhdmrxiUVu9ML5aeis/QnVf9R84SmbbKF+Bdo+jW/EGByEoO88tgrmDJlPUkYRsNEYly+mtXR6YapMvO9DuZ7wc7hM3UC0=";
+
+		this._sdkKey="hDLp9Fs1xTqeHHKKW1krjIelrnnxAMtqD7FhtVTTQLD67swoXsSuoQ69Ng7DMAcOsIYWtCukFyyXF1sNWFkNEVo0sNt0w2A0osz/n3RzpghwBy/Tp27/OLO5a64OPt71mo9QIA3OKIOn++UtKI7ElfhJIBYP5kROACihC7fOXJ5TYWx0ZWRfX0kIrEc5f8RqztMo97UBhPUU3gpDLCdAjepqH1K7Yx21sCW0Fz+eAontVvaQB/Dv/fJzGSVnPXJg16Wjto+uTd3iwdKEzdG81qGM90cGEd1xKxJkk/0XbMkkK4SZ41DgIFZV5hp8H2i+3VxWJ540paq1dC/S/hJDOJyH5pBB1Aj3ocRYI6CuyONDkGpSRBkK3c360U2uzAz2lvD5nZvgs6uGEnt5byIcaEJMSFpnalRoWGw49tbGSDoMND+O7FNmyrXdu5hAQqH2I/th5Vkgs5ylRNpG0PzdV0S9OwhNRUpvQdjOogaShDfR24MC6+l6JX8jqG8gC3S8du0eLxFVDTk6hoHDPU50D8Lt0PViKhpp8KtQg1BC+uSvoP7PihACkwew+5hylFbLkRal4E5fTcGQQJWBsCpJJ2dCsYpBRIuctkKwIeG+FyksirSSHqD1m+a9l7GWBgUmfiQnNOoCO1MKRRhV99Rgd1aQMw2vwbh9xrIAFsbRbhmivnlOdkRSsORDF0J9TA67qgB5oY5Xb4kfcRC0bBLG4KEVt+bawJD+sxkg3tCbocc=";
 		/**
 		 *  The Wikitude SDK can run in different modes.
 		 *      * Geo means, that objects are placed at latitude/longitude positions.
@@ -19,6 +19,8 @@
 		 */
         this.FeatureGeo             = "geo";
         this.FeatureImageTracking   = "image_tracking";
+        this.FeatureInstantTracking = "instant_tracking";
+        this.FeatureObjectTracking  = "object_tracking";
         this.Feature2DTracking      = "2d_tracking";
 
         /**

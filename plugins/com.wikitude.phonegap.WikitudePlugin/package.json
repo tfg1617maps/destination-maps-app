@@ -23,7 +23,7 @@
     ]
   ],
   "_from": "git+https://github.com/Wikitude/wikitude-cordova-plugin.git",
-  "_id": "com.wikitude.phonegap.wikitudeplugin@6.1.0",
+  "_id": "com.wikitude.phonegap.wikitudeplugin@7.1.0",
   "_inCache": true,
   "_location": "/com.wikitude.phonegap.wikitudeplugin",
   "_phantomChildren": {},
@@ -49,8 +49,8 @@
     "#USER",
     "/"
   ],
-  "_resolved": "git+https://github.com/Wikitude/wikitude-cordova-plugin.git#88861f0fd4340171c95d98ccb57a0e8417e0e100",
-  "_shasum": "add287942f40dff90de65a8caf19d92022694c50",
+  "_resolved": "git+https://github.com/Wikitude/wikitude-cordova-plugin.git#8f1e61942c823f092ec4bdc011b8582236fb244d",
+  "_shasum": "2e978dbea403e535318ee1951753d5c8094c678b",
   "_shrinkwrap": null,
   "_spec": "https://github.com/Wikitude/wikitude-cordova-plugin.git",
   "_where": "/home/aaron/Escritorio/aplicaciones/aplicacion/tfgmaps/node_modules",
@@ -76,7 +76,7 @@
       "version": ">=3.0.0"
     }
   ],
-  "gitHead": "88861f0fd4340171c95d98ccb57a0e8417e0e100",
+  "gitHead": "8f1e61942c823f092ec4bdc011b8582236fb244d",
   "homepage": "https://github.com/Wikitude/wikitude-phonegap#readme",
   "keywords": [
     "AR",
@@ -98,5 +98,5 @@
     "type": "git",
     "url": "git+https://github.com/Wikitude/wikitude-phonegap.git"
   },
-  "version": "6.1.0"
+  "version": "7.1.0"
 }
