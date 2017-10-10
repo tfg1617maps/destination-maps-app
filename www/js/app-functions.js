@@ -196,8 +196,9 @@ loadMaps = function(){
   $(document).ready(function() {
      var accept = window.confirm("¿Quiere actualizar la lista de mapas de la aplicación?");
      if(accept){
+         var url = url_server + '/mapas?app=true';
        $.ajax({
-         url:'http://tfg1617maps.zapto.org:8080/mapas?app=true',
+         url:url,
          method: 'get',
          success : function(res){
            setMapas(res.mapList,mapKey)
@@ -228,9 +229,9 @@ descargar los POIs del mapa seleccionado*/
 loadPois = function(id_mapa){
   var TAG = "loadPois";
   $(document).ready(function() {
-        var url = 'http://tfg1617maps.zapto.org:8080/verPOI?id=' + id_mapa + '&app=true';
+        var url = url_server + '/verPOI?id=' + id_mapa + '&app=true';
        $.ajax({
-         url:'http://tfg1617maps.zapto.org:8080/verPOI?id=' + id_mapa + '&app=true',
+         url:url,
          method: 'get',
          success : function(res){
            if ($('#maps').children('li').length > 0) {

@@ -1,6 +1,4 @@
-// implementation of AR-Experience (aka "World")
 var World = {
-	// true once data was fetched
 	initiallyLoadedData: false,
 	detailPoiKey: "detailPoi",
 	data: null,
@@ -86,7 +84,6 @@ var World = {
 			}
 		});
 	},
-	// called to inject new POI data
 	loadPoisFromJsonData: function loadPoisFromJsonDataFn(poiData) {
 		var elements = 0;
 		var markers =[];
@@ -98,22 +95,18 @@ var World = {
 				markers.push(new AR.GeoLocation(poiData[element].latitude, poiData[element].longitude, poiData[element].altitude));
 				if(elemento=='imagen'){
 					//crear un elemento AR imagen
-					//http://tfg1617maps.zapto.org:8080/downloads?name=file_image_1494415920530_esculturas.jpg
-					//assets/JulianBesteiro.jpg
-					var url = "http://tfg1617maps.zapto.org:8080/downloads?name="+poiData[element].archivo
+					var url = url_server+"/downloads?name="+poiData[element].archivo
 					var markerDrawable_idle = new AR.ImageResource(url);
 					World.createImageElement(poiData[element].tamanio,markerDrawable_idle,markers[element],indicador);
 				}else if(elemento=='video'){
 					//creamos un elemento AR video
-					var url = "http://tfg1617maps.zapto.org:8080/downloads?name="+poiData[element].archivo
+					var url = url_server+"/downloads?name="+poiData[element].archivo
 					World.createVideoElement(url, poiData[element].transparencia, poiData[element].tamanio,markers[element],indicador);
 				}
 			}
 		}
-		World.updateStatusMessage(elements + ' place loaded');
+		World.updateStatusMessage(elements + ' elementos creados');
 	},
-
-	// updates status message shown in small "i"-button aligned bottom center
 	updateStatusMessage: function updateStatusMessageFn(message, isWarning) {
 		var themeToUse = isWarning ? "e" : "c";
 		var iconToUse = isWarning ? "alert" : "info";
@@ -126,8 +119,6 @@ var World = {
 			icon: iconToUse
 		});
 	},
-
-	// location updates, fired every time you call architectView.setLocation() in native environment
 	locationChanged: function locationChangedFn(lat, lon, alt, acc) {
 		if (!World.initiallyLoadedData) {
 			World.data = JSON.parse(window.localStorage.getItem(World.detailPoiKey));
@@ -230,8 +221,4 @@ var World = {
 		}
 	},
 };
-
-/*
-	Set a custom function where location changes are forwarded to. There is also a possibility to set AR.context.onLocationChanged to null. In this case the function will not be called anymore and no further location updates will be received.
-*/
 AR.context.onLocationChanged = World.locationChanged;
